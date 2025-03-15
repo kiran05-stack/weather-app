@@ -1,7 +1,12 @@
-const apiKey = "74c7f55908557ab4b933ea3399b92f2d"; // Your API Key
+const apiKey = "74c7f55908557ab4b933ea3399b92f2d";
 const cityInput = document.getElementById("cityInput");
 const getWeatherBtn = document.getElementById("getWeatherBtn");
 const weatherInfo = document.getElementById("weatherInfo");
+
+// Ensure script runs after page loads
+document.addEventListener("DOMContentLoaded", () => {
+    updateBackground("Default");
+});
 
 getWeatherBtn.addEventListener("click", () => {
     const city = cityInput.value.trim();
