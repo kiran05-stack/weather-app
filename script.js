@@ -1,34 +1,35 @@
-const apiKey = "74c7f55908557ab4b933ea3399b92f2d";
-const weatherForm = document.querySelector("form");
-const cityInput = document.querySelector("#city");
-const weatherDisplay = document.querySelector("#weather");
 
-weatherForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    
-    const city = cityInput.value.trim();
-    if (city === "") {
-        alert("Please enter a city name!");
-        return;
-    }
+document.addEventListener("DOMContentLoaded", function () {
+    const apiKey = "74c7f55908557ab4b933ea3399b92f2d";
+    const getWeatherButton = document.querySelector("#getWeather");
+    const cityInput = document.querySelector("#cityInput");
+    const weatherResult = document.querySelector("#weatherResult");
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error("City not found");
+    getWeatherButton.addEventListener("click", function () {
+        const city = cityInput.value.trim();
+        if (city === "") {
+            weatherResult.innerHTML = "Please enter a city name.";
+            return;
         }
 
-        const data = await response.json();
-        const { main, weather, name } = data;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-        weatherDisplay.innerHTML = `
-            <h2>${name}</h2>
-            <p>Temperature: ${main.temp}°C</p>
-            <p>Weather: ${weather[0].description}</p>
-        `;
-    } catch (error) {
-        weatherDisplay.innerHTML = `<p style="color: red;">${error.message}</p>`;
-    }
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.cod === 200) {
+                    weatherResult.innerHTML = `
+                        <h3>${data.name}, ${data.sys.country}</h3>
+                        <p>Temperature: ${data.main.temp}°C</p>
+                        <p>Weather: ${data.weather[0].description}</p>
+                    `;
+                } else {
+                    weatherResult.innerHTML = "City not found. Please try again.";
+                }
+            })
+            .catch(error => {
+                weatherResult.innerHTML = "Error fetching weather data.";
+                console.error(error);
+            });
+    });
 });
