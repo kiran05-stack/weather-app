@@ -6,7 +6,7 @@ const weatherInfo = document.getElementById("weatherInfo");
 getWeatherBtn.addEventListener("click", () => {
     const city = cityInput.value.trim();
     if (city === "") {
-        weatherInfo.innerHTML = "Please enter a city name.";
+        weatherInfo.innerHTML = "<p>Please enter a city name.</p>";
         return;
     }
 
@@ -14,7 +14,7 @@ getWeatherBtn.addEventListener("click", () => {
         .then(response => response.json())
         .then(data => {
             if (data.cod === "404") {
-                weatherInfo.innerHTML = "City not found.";
+                weatherInfo.innerHTML = "<p>City not found.</p>";
                 return;
             }
 
@@ -22,14 +22,16 @@ getWeatherBtn.addEventListener("click", () => {
             const weather = data.weather[0].main;
             const weatherDescription = data.weather[0].description;
 
-            weatherInfo.innerHTML = `<h2>${city}</h2>
-                                     <p>${temperature}°C</p>
-                                     <p>${weather} - ${weatherDescription}</p>`;
+            weatherInfo.innerHTML = `
+                <h2>${city}</h2>
+                <p>${temperature}°C</p>
+                <p>${weather} - ${weatherDescription}</p>
+            `;
 
             updateBackground(weather);
         })
         .catch(() => {
-            weatherInfo.innerHTML = "Error fetching data.";
+            weatherInfo.innerHTML = "<p>Error fetching data.</p>";
         });
 });
 
