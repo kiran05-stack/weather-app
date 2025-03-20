@@ -3,11 +3,6 @@ const cityInput = document.getElementById("cityInput");
 const getWeatherBtn = document.getElementById("getWeatherBtn");
 const weatherInfo = document.getElementById("weatherInfo");
 
-// Ensure script runs after page loads
-document.addEventListener("DOMContentLoaded", () => {
-    updateBackground("Default");
-});
-
 getWeatherBtn.addEventListener("click", () => {
     const city = cityInput.value.trim();
     if (city === "") {
@@ -32,32 +27,8 @@ getWeatherBtn.addEventListener("click", () => {
                 <p>${temperature}°C</p>
                 <p>${weather} - ${weatherDescription}</p>
             `;
-
-            updateBackground(weather);
         })
         .catch(() => {
             weatherInfo.innerHTML = "<p>Error fetching data.</p>";
         });
 });
-
-// Function to change background based on weather condition
-function updateBackground(weather) {
-    const body = document.body;
-    let imageUrl = "";
-
-    if (weather === "Clear") {
-        imageUrl = "https://source.unsplash.com/1920x1080/?sunny";
-    } else if (weather === "Clouds") {
-        imageUrl = "https://source.unsplash.com/1920x1080/?cloudy";
-    } else if (weather === "Rain") {
-        imageUrl = "https://source.unsplash.com/1920x1080/?rain";
-    } else if (weather === "Snow") {
-        imageUrl = "https://source.unsplash.com/1920x1080/?snow";
-    } else if (weather === "Thunderstorm") {
-        imageUrl = "https://source.unsplash.com/1920x1080/?thunderstorm";
-    } else {
-        imageUrl = "https://source.unsplash.com/1920x1080/?weather";
-    }
-
-    body.style.backgroundImage = `url(${imageUrl})`;
-}
